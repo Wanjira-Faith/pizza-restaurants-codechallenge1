@@ -33,4 +33,6 @@ class Pizza(db.Model):
         return f'<Pizza {self.id}: {self.name}'   
 
 class RestaurantPizza(db.Model):
-         
+    id = db.Column(db.Integer, primary_key=True)
+    
+
