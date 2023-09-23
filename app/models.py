@@ -66,3 +66,14 @@ class RestaurantPizza(db.Model):
 
     def __repr__(self):
         return f'<RestaurantPizza {self.id}: Price: {self.price}>'    
+    
+    def validate(self):
+        errors = {}
+
+        if not self.price:
+            errors['price'] = 'Price is required'
+
+        if self.price < 1 or self.price > 30:
+            errors['price'] = 'Price must be between 1 and 30'
+
+        return errors
