@@ -7,3 +7,6 @@ migrate = Migrate(app, db)
 
 # Create Flask-Script manager
 manager = Manager(app)
+
+# Add Flask-Migrate commands to the manager
+manager.add_command('db', MigrateCommand)
