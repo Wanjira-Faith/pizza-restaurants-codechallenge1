@@ -24,3 +24,7 @@ class Pizza(db.Model):
     ingredients = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __init__(self, name, ingredients):
+        self.name = name
+        self.ingredients = ingredients
