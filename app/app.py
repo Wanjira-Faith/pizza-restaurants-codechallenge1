@@ -17,7 +17,7 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 from models import Restaurant, Pizza, RestaurantPizza
-from app import routes
+from routes import *
 
 if __name__ == '__main__':
     app.run(debug=True)
