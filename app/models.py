@@ -1,6 +1,8 @@
-from .app import db
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import CheckConstraint
 from datetime import datetime
+
+db = SQLAlchemy()
 
 class Restaurant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,7 +11,7 @@ class Restaurant(db.Model):
     
     # Define the many-to-many relationship with Pizza through the restaurant_pizza association table
     pizzas = db.relationship('Pizza', secondary='restaurant_pizza', back_populates='restaurants')
-    
+       
     def __init__(self, name, address):
         self.name = name
         self.address = address
@@ -24,8 +26,8 @@ class Pizza(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Define the many-to-many relationship with Restaurant through the restaurant_pizza association table 
-    restaurants = db.relationship('Restaurant', secondary ='restaurant_pizza', back_populates = 'pizzas')
+   # Define the many-to-many relationship with Restaurant through the restaurant_pizza association table 
+    restaurants = db.relationship('Restaurant', secondary='restaurant_pizza', back_populates='pizzas')
 
     def __init__(self, name, ingredients):
         self.name = name
