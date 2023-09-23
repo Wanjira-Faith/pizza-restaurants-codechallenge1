@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from .models import Restaurant, Pizza, RestaurantPizza
-from .app import app, db
+from models import Restaurant, Pizza, RestaurantPizza
+from app import app, db
 
 
 # Route to get all restaurants
