@@ -10,3 +10,6 @@ manager = Manager(app)
 
 # Add Flask-Migrate commands to the manager
 manager.add_command('db', MigrateCommand)
+
+if __name__ == '__main__':
+    manager.run()
