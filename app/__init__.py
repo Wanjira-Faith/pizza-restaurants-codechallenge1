@@ -9,7 +9,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from lib import routes
+def create_app():
+    db.init_app(app)
+
+    from app import routes
+
+    return app
 
 if __name__ == '__main__':
     app.run(debug=True)
