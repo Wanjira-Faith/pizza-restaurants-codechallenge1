@@ -10,3 +10,7 @@ class Restaurant(db.Model):
     address = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, name, address):
+        self.name = name
+        self.address = address
