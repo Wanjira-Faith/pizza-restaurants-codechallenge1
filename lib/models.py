@@ -52,3 +52,6 @@ class RestaurantPizza(db.Model):
         self.price = price
         self.restaurant_id = restaurant_id
         self.pizza_id = pizza_id
+
+    def __repr__(self):
+        return f'<RestaurantPizza {self.id}: Price: {self.price}>'    
