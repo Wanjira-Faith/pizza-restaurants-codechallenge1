@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
 from .models import Restaurant, Pizza, RestaurantPizza
-from app import app, db
+from .app import app, db
 
-app = Flask(__name__)
 
 # Route to get all restaurants
 @app.route('/restaurants', methods=['GET'])
