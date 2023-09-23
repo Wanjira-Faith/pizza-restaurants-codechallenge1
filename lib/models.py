@@ -9,19 +9,25 @@ class Restaurant(db.Model):
     name = db.Column(db.String(50), unique=True, nullable=False)
     address = db.Column(db.String(255))
     
+    # Define the many-to-many relationship with Pizza through the restaurant_pizza association table
+    pizzas = db.relationship('Pizza', secondary='restaurant_pizza', back_populates='restaurants')
+    
     def __init__(self, name, address):
         self.name = name
         self.address = address
 
     def __repr__(self):
         return f'<Restaurant {self.id}: {self.name}'    
-    
+     
 class Pizza(db.Model):    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     ingredients = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Define the many-to-many relationship with Restaurant through the restaurant_pizza association table 
+    restaurants = db.relationship('Restaurant', secondary ='restaurant_pizza', back_populates = 'pizzas')
 
     def __init__(self, name, ingredients):
         self.name = name
