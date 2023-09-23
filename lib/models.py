@@ -14,3 +14,6 @@ class Restaurant(db.Model):
     def __init__(self, name, address):
         self.name = name
         self.address = address
+
+    def __repr__(self):
+        return f'<Restaurant {self.id}: {self.name}'    
