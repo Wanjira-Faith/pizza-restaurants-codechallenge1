@@ -47,3 +47,8 @@ class RestaurantPizza(db.Model):
     # Define relationships with Restaurant and Pizza
     restaurant = db.relationship('Restaurant', back_populates='restaurant_pizzas')
     pizza = db.relationship('Pizza', back_populates='pizza_restaurants')
+
+    def __init__(self, price, restaurant_id, pizza_id):
+        self.price = price
+        self.restaurant_id = restaurant_id
+        self.pizza_id = pizza_id
