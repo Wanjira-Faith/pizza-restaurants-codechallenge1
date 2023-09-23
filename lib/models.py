@@ -34,5 +34,4 @@ class Pizza(db.Model):
 
 class RestaurantPizza(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
-
+    price = db.Column(db.Float(CheckConstraint('price >= 1 AND price <= 30')), nullable=False)
