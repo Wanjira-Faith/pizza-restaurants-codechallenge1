@@ -17,3 +17,5 @@ class Restaurant(db.Model):
 
     def __repr__(self):
         return f'<Restaurant {self.id}: {self.name}'    
+    
+class Pizza(db.Model):    
