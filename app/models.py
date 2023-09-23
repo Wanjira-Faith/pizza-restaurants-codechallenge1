@@ -1,8 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
+from app import db
 from sqlalchemy import CheckConstraint
 from datetime import datetime
-
-db = SQLAlchemy()
 
 class Restaurant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
