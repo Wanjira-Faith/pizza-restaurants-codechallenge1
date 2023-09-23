@@ -3,3 +3,6 @@ from sqlalchemy import CheckConstraint
 from datetime import datetime
 
 db = SQLAlchemy()
+
+class Restaurant(db.Model):
+    
