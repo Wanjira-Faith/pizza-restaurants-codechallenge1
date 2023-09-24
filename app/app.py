@@ -59,7 +59,7 @@ def get_restaurant_by_id(id):
 
     return jsonify(restaurant_data)
 
-# Define the route to delete a restaurant by ID
+# Route to delete a restaurant by ID
 @app.route('/restaurants/<int:id>', methods=['DELETE'])
 def delete_restaurant(id):
     restaurant = Restaurant.query.get(id)
@@ -76,6 +76,23 @@ def delete_restaurant(id):
     db.session.commit()
 
     return make_response('', 204)
+
+# Route to get a list of pizzas
+@app.route('/pizzas', methods=['GET'])
+def get_pizzas():
+    pizzas = Pizza.query.all()
+    pizza_list = []
+
+    for pizza in pizzas:
+        pizza_data = {
+            'id': pizza.id,
+            'name': pizza.name,
+            'ingredients': pizza.ingredients
+        }
+
+        pizza_list.append(pizza_data)
+
+    return jsonify(pizza_list), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
