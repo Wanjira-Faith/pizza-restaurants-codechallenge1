@@ -1,17 +1,14 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, request, make_response
 from flask_migrate import Migrate
 from models import db, Restaurant, Pizza, RestaurantPizza
 
-# Create a Flask application instance
 app = Flask(__name__)
 
-# Configure database URI and disable track modifications
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizza_restaurants.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 migrate = Migrate(app, db)
 
-# Initialize database with Flask app
 db.init_app(app)
 
 # Route to get all restaurants
@@ -77,7 +74,7 @@ def delete_restaurant(id):
 
     return make_response('', 204)
 
-# Route to get a list of pizzas
+# Route to get all pizzas
 @app.route('/pizzas', methods=['GET'])
 def get_pizzas():
     pizzas = Pizza.query.all()
@@ -93,6 +90,48 @@ def get_pizzas():
         pizza_list.append(pizza_data)
 
     return jsonify(pizza_list), 200
+
+# Route to Post a new restaurant pizza
+@app.route('/restaurant_pizzas', methods=['POST'])
+def create_restaurant_pizza():
+    data = request.get_json()
+
+   # Retrieve data from request
+    price = data.get("price")
+    pizza_id = data.get("pizza_id")
+    restaurant_id = data.get("restaurant_id")
+
+    errors = []
+
+    if price is None or pizza_id is None or restaurant_id is None:
+        errors.append("Price, pizza_id, and restaurant_id are required fields")
+
+    # Check if the specified Pizza and Restaurant exist
+    pizza = Pizza.query.get(pizza_id)
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    if pizza is None:
+        errors.append("Pizza not found")
+
+    if restaurant is None:
+        errors.append("Restaurant not found")
+
+    if errors:
+        return jsonify({"errors": errors}), 400
+
+    # Create new restaurant pizza
+    restaurant_pizza = RestaurantPizza(price=price, pizza_id=pizza_id, restaurant_id=restaurant_id)
+    db.session.add(restaurant_pizza)
+    db.session.commit()
+
+    # Retrieve associated pizza 
+    pizza_data = {
+        "id": pizza.id,
+        "name": pizza.name,
+        "ingredients": pizza.ingredients
+    }
+
+    return jsonify(pizza_data), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
