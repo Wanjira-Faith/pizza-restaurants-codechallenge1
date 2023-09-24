@@ -1,6 +1,6 @@
 from faker import Faker
-from app import db
-from models import Restaurant, Pizza, RestaurantPizza
+from app import app
+from models import db, Restaurant, Pizza, RestaurantPizza
 
 fake = Faker()
 
@@ -15,18 +15,19 @@ def create_fake_pizza():
     return Pizza(name=name, ingredients=ingredients)
 
 def create_fake_restaurant_pizza(restaurant, pizza):
-    price = fake.random_int(min=1, max=30, step=1) 
+    price = fake.random_int(min=1, max=30, step=1)
     return RestaurantPizza(price=price, restaurant=restaurant, pizza=pizza)
 
 def seed_fake_data(num_records):
-    for _ in range(num_records):
-        restaurant = create_fake_restaurant()
-        pizza = create_fake_pizza()
-        db.session.add(restaurant)
-        db.session.add(pizza)
-        db.session.add(create_fake_restaurant_pizza(restaurant, pizza))
+    with app.app_context():  # Create a Flask application context
+        for _ in range(num_records):
+            restaurant = create_fake_restaurant()
+            pizza = create_fake_pizza()
+            db.session.add(restaurant)
+            db.session.add(pizza)
+            db.session.add(create_fake_restaurant_pizza(restaurant, pizza))
 
-    db.session.commit()
+        db.session.commit()
 
 if __name__ == '__main__':
-    seed_fake_data(10)  
+    seed_fake_data(10)
