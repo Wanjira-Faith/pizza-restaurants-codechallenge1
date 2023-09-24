@@ -31,5 +31,33 @@ def get_restaurants():
 
     return jsonify(restaurant_list), 200    
 
+# Route to get a specific restaurant by ID
+@app.route('/restaurants/<int:id>', methods=['GET'])
+def get_restaurant_by_id(id):
+    restaurant = Restaurant.query.get(id)
+
+    if restaurant is None:
+        return jsonify({"error": "Restaurant not found"}), 404
+
+    # Retrives associated pizzas
+    pizzas = []
+    for restaurant_pizza in restaurant.restaurant_pizzas:
+        pizza = restaurant_pizza.pizza
+        pizza_data = {
+            "id": pizza.id,
+            "name": pizza.name,
+            "ingredients": pizza.ingredients
+        }
+        pizzas.append(pizza_data)
+
+    restaurant_data = {
+        "id": restaurant.id,
+        "name": restaurant.name,
+        "address": restaurant.address,
+        "pizzas": pizzas
+    }
+
+    return jsonify(restaurant_data)
+
 if __name__ == '__main__':
     app.run(debug=True)
