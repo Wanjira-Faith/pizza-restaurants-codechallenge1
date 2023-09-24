@@ -1,6 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from models import db, Restaurant, Pizza, RestaurantPizza
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -9,14 +9,11 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pizza_restaurants.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize database and migration objects
-db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# Initialize database with the Flask app
+# Initialize database with Flask app
 db.init_app(app)
 
-from models import Restaurant, Pizza, RestaurantPizza
 from routes import *
 
 if __name__ == '__main__':
