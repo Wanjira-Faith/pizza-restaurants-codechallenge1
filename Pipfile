@@ -8,6 +8,7 @@ flask = "==2.2.2"
 flask-sqlalchemy = "==3.0.2"
 flask-migrate = "==2.7.0"
 flask-script = "==2.0.5"
+faker = "*"
 
 [dev-packages]
 
