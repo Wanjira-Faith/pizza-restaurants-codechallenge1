@@ -19,7 +19,14 @@ def create_fake_restaurant_pizza(restaurant, pizza):
     return RestaurantPizza(price=price, restaurant=restaurant, pizza=pizza)
 
 def seed_fake_data(num_records):
-    with app.app_context():  # Create a Flask application context
+    with app.app_context(): 
+        # Clear existing data
+        db.session.query(RestaurantPizza).delete()
+        db.session.query(Restaurant).delete()
+        db.session.query(Pizza).delete()
+        db.session.commit()
+
+        # Create and add new fake data
         for _ in range(num_records):
             restaurant = create_fake_restaurant()
             pizza = create_fake_pizza()
